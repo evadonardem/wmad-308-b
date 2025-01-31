@@ -97,7 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ]
           
             ),
-            Text("Marcos, Brene"),
+            Text("Marcos, Brenelyn"),
           ],
           
         ),
