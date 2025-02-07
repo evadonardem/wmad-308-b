@@ -1,0 +1,43 @@
+2025/02/07-18:30:18.759 1c50 Creating DB C:\Users\Student\AppData\Local\Temp\flutter_tools.8f92a5f2\flutter_tools_chrome_device.6ac30341\Default\IndexedDB\https_www.facebook.com_0.indexeddb.leveldb since it was missing.
+2025/02/07-18:30:18.771 1c50 Reusing MANIFEST C:\Users\Student\AppData\Local\Temp\flutter_tools.8f92a5f2\flutter_tools_chrome_device.6ac30341\Default\IndexedDB\https_www.facebook.com_0.indexeddb.leveldb/MANIFEST-000001
+2025/02/07-18:30:19.129 1c50 Level-0 table #5: started
+2025/02/07-18:30:19.130 1c50 Level-0 table #5: 7350 bytes OK
+2025/02/07-18:30:19.131 1c50 Delete type=0 #3
+2025/02/07-18:30:19.131 1c50 Manual compaction at level-0 from '\x00\x05\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x06\x00\x00\x00' @ 0 : 0; will stop at (end)
+2025/02/07-18:30:19.280 2bcc Level-0 table #7: started
+2025/02/07-18:30:19.282 2bcc Level-0 table #7: 4925 bytes OK
+2025/02/07-18:30:19.283 2bcc Delete type=0 #4
+2025/02/07-18:30:19.283 1c50 Manual compaction at level-0 from '\x00\x08\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x09\x00\x00\x00' @ 0 : 0; will stop at (end)
+2025/02/07-18:30:27.066 1c50 Compacting 1@1 + 1@2 files
+2025/02/07-18:30:27.067 1c50 Generated table #8@1: 228 keys, 4621 bytes
+2025/02/07-18:30:27.067 1c50 Compacted 1@1 + 1@2 files => 4621 bytes
+2025/02/07-18:30:27.068 1c50 compacted to: files[ 0 0 1 0 0 0 0 ]
+2025/02/07-18:30:41.748 1ce4 Level-0 table #10: started
+2025/02/07-18:30:41.767 1ce4 Level-0 table #10: 1259798 bytes OK
+2025/02/07-18:30:41.769 1ce4 Delete type=2 #5
+2025/02/07-18:30:41.769 1ce4 Delete type=0 #6
+2025/02/07-18:30:41.769 1ce4 Delete type=2 #7
+2025/02/07-18:30:43.702 1c50 Compacting 1@1 + 1@2 files
+2025/02/07-18:30:43.718 1c50 Generated table #11@1: 7877 keys, 410755 bytes
+2025/02/07-18:30:43.718 1c50 Compacted 1@1 + 1@2 files => 410755 bytes
+2025/02/07-18:30:43.719 1c50 compacted to: files[ 0 0 1 0 0 0 0 ]
+2025/02/07-18:30:43.720 1c50 Delete type=2 #8
+2025/02/07-18:30:43.720 1c50 Delete type=2 #10
+2025/02/07-18:30:43.720 1c50 Level-0 table #13: started
+2025/02/07-18:30:43.740 1c50 Level-0 table #13: 1269052 bytes OK
+2025/02/07-18:30:43.742 1c50 Delete type=0 #9
+2025/02/07-18:30:43.764 2bcc Compacting 1@1 + 1@2 files
+2025/02/07-18:30:43.788 2bcc Generated table #14@1: 13925 keys, 764094 bytes
+2025/02/07-18:30:43.788 2bcc Compacted 1@1 + 1@2 files => 764094 bytes
+2025/02/07-18:30:43.788 2bcc compacted to: files[ 0 0 1 0 0 0 0 ]
+2025/02/07-18:30:45.566 1ce4 Level-0 table #16: started
+2025/02/07-18:30:45.585 1ce4 Level-0 table #16: 1304615 bytes OK
+2025/02/07-18:30:45.586 1ce4 Delete type=2 #11
+2025/02/07-18:30:45.586 1ce4 Delete type=0 #12
+2025/02/07-18:30:45.586 1ce4 Delete type=2 #13
+2025/02/07-18:30:45.591 1ce4 Compacting 1@1 + 1@2 files
+2025/02/07-18:30:45.621 1ce4 Generated table #17@1: 27688 keys, 1268853 bytes
+2025/02/07-18:30:45.622 1ce4 Compacted 1@1 + 1@2 files => 1268853 bytes
+2025/02/07-18:30:45.622 1ce4 compacted to: files[ 0 0 1 0 0 0 0 ]
+2025/02/07-18:30:45.622 1ce4 Delete type=2 #14
+2025/02/07-18:30:45.623 1ce4 Delete type=2 #16
