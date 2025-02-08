@@ -20,7 +20,6 @@ void main() async {
   var responseTodos = await http.get(Uri.parse(todosEndpoint));
   print(responseTodos.body);
 
-  
   var postsEndpoint = '${apiBaseUrl}users/$userID/posts';
   var responsePosts = await http.get(Uri.parse(postsEndpoint));
   print(responsePosts.body);
