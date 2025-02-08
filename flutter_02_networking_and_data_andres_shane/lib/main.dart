@@ -7,7 +7,6 @@ void main() async {
   var responseUsers = await http.get(Uri.parse(userListEndpoint));
   print(responseUsers.body);
 
-  
   var userID = 4; 
   var showUserEndpoint = '${apiBaseUrl}users/$userID';
   var responseUser = await http.get(Uri.parse(showUserEndpoint));
