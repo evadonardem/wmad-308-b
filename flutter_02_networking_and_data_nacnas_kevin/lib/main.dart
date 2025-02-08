@@ -15,7 +15,7 @@ void main() async {
   var responseUser = await http.get(
     Uri.parse(showUserEndpoint),
   );
-  print("User Deatils");
+  print("User Details");
   print(responseUser.body);
 
   //fetch albums of a particular user
