@@ -12,7 +12,6 @@ void main() async {
   var responseUser = await http.get(Uri.parse(showUserEndpoint));
   print(responseUser.body);
 
-  
   var albumsEndpoint = '${apiBaseUrl}users/$userID/albums';
   var responseAlbums = await http.get(Uri.parse(albumsEndpoint));
   print(responseAlbums.body);
