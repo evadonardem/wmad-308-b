@@ -28,6 +28,6 @@ void main() async {
   print("User details:");
   print(responseUser.body);
 }
-
+//albums
 //todos
 //posts
