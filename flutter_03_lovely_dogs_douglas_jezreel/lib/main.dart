@@ -13,13 +13,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Lovely Dogs by Jezreel Douglas',
+      title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-            seedColor: const Color.fromARGB(255, 18, 28, 83)),
+            seedColor: const Color.fromARGB(255, 255, 182, 193)),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Lovely Dogs by Jezreel Douglas'),
+      home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
@@ -34,8 +34,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  late Future<List<Breed>> futureBreeds;
-  Future<BreedImage>? futureSelectedImageUrl;
+  late Future<List<String>> futureBreeds;
+  Future<Dog>? futureSelectedDog;
   bool hasSelection = false;
   var wordPair = "";
 
@@ -45,11 +45,15 @@ class _MyHomePageState extends State<MyHomePage> {
     futureBreeds = fetchBreeds();
   }
 
-  void handleBreedSelection(Breed breed) {
+  void handleBreedSelection(String breed) async {
     setState(() {
       wordPair = WordPair.random().join("");
       hasSelection = true;
-      futureSelectedImageUrl = fetchRandomAnimalFromBreed(breed.name);
+    });
+
+    final selectedDog = await fetchRandomDogFromBreed(breed, wordPair);
+    setState(() {
+      futureSelectedDog = Future.value(selectedDog);
     });
   }
 
@@ -63,7 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFFB2FEFA), Color.fromARGB(255, 159, 100, 255)],
+            colors: [Color(0xFFFFE4E1), Color(0xFFFFC0CB)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -79,7 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ),
-              FutureBuilder<List<Breed>>(
+              FutureBuilder<List<String>>(
                   future: futureBreeds,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
@@ -90,12 +94,15 @@ class _MyHomePageState extends State<MyHomePage> {
                       var breeds = snapshot.data!;
                       return SizedBox(
                         width: 200,
-                        child: DropdownMenu(
-                          dropdownMenuEntries: breeds
-                              .map((breed) => DropdownMenuEntry(
-                                  value: breed, label: breed.name.toUpperCase()))
+                        child: DropdownButton<String>(
+                          value: null,
+                          hint: const Text("Select Breed"),
+                          items: breeds
+                              .map((breed) => DropdownMenuItem(
+                                  value: breed,
+                                  child: Text(breed.toUpperCase())))
                               .toList(),
-                          onSelected: (value) {
+                          onChanged: (value) {
                             if (value != null) handleBreedSelection(value);
                           },
                         ),
@@ -103,9 +110,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     }
                     return const Text("No breeds found.");
                   }),
-              if (hasSelection && futureSelectedImageUrl != null)
-                FutureBuilder<BreedImage>(
-                    future: futureSelectedImageUrl,
+              if (hasSelection && futureSelectedDog != null)
+                FutureBuilder<Dog>(
+                    future: futureSelectedDog,
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const CircularProgressIndicator();
@@ -114,28 +121,38 @@ class _MyHomePageState extends State<MyHomePage> {
                       } else if (snapshot.hasData) {
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            width: 300,
-                            height: 300,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black26,
-                                  blurRadius: 8,
-                                  offset: Offset(0, 4),
-                                ),
-                              ],
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(16),
-                              child: Image.network(
-                                snapshot.data!.imageUrl,
+                          child: Column(
+                            children: [
+                              Container(
                                 width: 300,
                                 height: 300,
-                                fit: BoxFit.cover,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(16),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black26,
+                                      blurRadius: 8,
+                                      offset: Offset(0, 4),
+                                    ),
+                                  ],
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(16),
+                                  child: Image.network(
+                                    snapshot.data!.imageUrl,
+                                    width: 300,
+                                    height: 300,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
                               ),
-                            ),
+                              SizedBox(height: 8),
+                              Text(
+                                snapshot.data!.name.toUpperCase(),
+                                style: TextStyle(
+                                    fontSize: 32, fontWeight: FontWeight.bold),
+                              )
+                            ],
                           ),
                         );
                       }
@@ -149,47 +166,37 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class Breed {
+class Dog {
+  final String breed;
+  final String imageUrl;
   final String name;
 
-  Breed({required this.name});
+  Dog({required this.breed, required this.imageUrl, required this.name});
 
-  factory Breed.fromJson(String name) {
-    return Breed(name: name);
+  factory Dog.fromJson(String breed, String imageUrl, String name) {
+    return Dog(breed: breed, imageUrl: imageUrl, name: name);
   }
 }
 
-class BreedImage {
-  final String imageUrl;
-
-  BreedImage({required this.imageUrl});
-
-  factory BreedImage.fromJson(Map<String, dynamic> json) {
-    return BreedImage(imageUrl: json['message']);
-  }
-}
-
-Future<List<Breed>> fetchBreeds() async {
+Future<List<String>> fetchBreeds() async {
   final dogBreedsEndpoint = 'https://dog.ceo/api/breeds/list/all';
   final response = await http.get(Uri.parse(dogBreedsEndpoint));
 
   if (response.statusCode == 200) {
     final data = jsonDecode(response.body);
-    List<Breed> breeds =
-        List.from(data['message'].keys.map((name) => Breed.fromJson(name)));
-    return breeds;
+    return List<String>.from(data['message'].keys);
   } else {
     throw Exception('Failed to fetch breeds');
   }
 }
 
-Future<BreedImage> fetchRandomAnimalFromBreed(String breed) async {
-  final dogBreedsEndpoint = 'https://dog.ceo/api/breed/$breed/images/random';
-  final response = await http.get(Uri.parse(dogBreedsEndpoint));
+Future<Dog> fetchRandomDogFromBreed(String breed, String name) async {
+  final dogImageEndpoint = 'https://dog.ceo/api/breed/$breed/images/random';
+  final response = await http.get(Uri.parse(dogImageEndpoint));
 
   if (response.statusCode == 200) {
     final data = jsonDecode(response.body);
-    return BreedImage.fromJson(data);
+    return Dog.fromJson(breed, data['message'], name);
   } else {
     throw Exception('Failed to fetch image from breed');
   }
