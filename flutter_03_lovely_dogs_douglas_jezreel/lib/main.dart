@@ -141,10 +141,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       }
                       return const SizedBox();
                     }),
-              Text(
-                wordPair.toUpperCase(),
-                style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-              )
             ],
           ),
         ),
