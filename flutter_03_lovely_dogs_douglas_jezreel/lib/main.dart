@@ -35,7 +35,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   late Future<List<String>> futureBreeds;
-  Future<Dog>? futureSelectedDog;
+  Future<Dogjhez>? futureSelectedDog;
   bool hasSelection = false;
   var wordPair = "";
 
@@ -111,7 +111,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     return const Text("No breeds found.");
                   }),
               if (hasSelection && futureSelectedDog != null)
-                FutureBuilder<Dog>(
+                FutureBuilder<Dogjhez>(
                     future: futureSelectedDog,
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
@@ -166,15 +166,15 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class Dog {
+class Dogjhez {
   final String breed;
   final String imageUrl;
   final String name;
 
-  Dog({required this.breed, required this.imageUrl, required this.name});
+  Dogjhez({required this.breed, required this.imageUrl, required this.name});
 
-  factory Dog.fromJson(String breed, String imageUrl, String name) {
-    return Dog(breed: breed, imageUrl: imageUrl, name: name);
+  factory Dogjhez.fromJson(String breed, String imageUrl, String name) {
+    return Dogjhez(breed: breed, imageUrl: imageUrl, name: name);
   }
 }
 
@@ -190,13 +190,13 @@ Future<List<String>> fetchBreeds() async {
   }
 }
 
-Future<Dog> fetchRandomDogFromBreed(String breed, String name) async {
+Future<Dogjhez> fetchRandomDogFromBreed(String breed, String name) async {
   final dogImageEndpoint = 'https://dog.ceo/api/breed/$breed/images/random';
   final response = await http.get(Uri.parse(dogImageEndpoint));
 
   if (response.statusCode == 200) {
     final data = jsonDecode(response.body);
-    return Dog.fromJson(breed, data['message'], name);
+    return Dogjhez.fromJson(breed, data['message'], name);
   } else {
     throw Exception('Failed to fetch image from breed');
   }
