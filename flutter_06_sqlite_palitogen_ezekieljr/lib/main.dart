@@ -118,7 +118,7 @@ Future<void> main() async {
     
     myLuckyDog = Dog(
       id: myLuckyDog.id,
-      name: "Joe Kis-ing",
+      name: "Blacky",
       breed: myLuckyDog.breed,
       photo: myLuckyDog.photo,
     );
