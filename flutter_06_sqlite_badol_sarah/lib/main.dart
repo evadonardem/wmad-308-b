@@ -27,11 +27,12 @@ class Dog {
 }
 
 Future<void> main() async {
+  //open//create database
   databaseFactory = databaseFactoryFfi;
   WidgetsFlutterBinding.ensureInitialized();
 
   final databasePath = await getDatabasesPath();
-  print("wmad-308-b Database path: $databasePath");
+  print("wmad-308-b database path: $databasePath");
 
   final databaseName = 'wmad-308-b_doggie_database.db';
   final database = openDatabase(
@@ -44,15 +45,8 @@ Future<void> main() async {
     version: 1,
   );
 
-  /**
-   * CRUD
-   * C-reate
-   * R-ead
-   * U-pdate
-   * D-elete
-   */
+  //C- Create
 
-// C -reate (Done)
   Future<void> insertDog(Dog dog) async {
     final db = await database;
 
@@ -63,16 +57,18 @@ Future<void> main() async {
     );
   }
 
-  for (var i = 0; i < 100; i++) {
-    final myadoptedDogName = WordPair.random().asPascalCase;
-    var myadoptedDog = Dog(
-        name: myadoptedDogName,
-        breed: "askal",
-        photo: "http://some-url/$myadoptedDogName$i.jpg");
-    await insertDog(myadoptedDog);
+  for (var i = 0; i < 10; i++) {
+    final myAdoptedDogName = WordPair.random().asPascalCase;
+    var myAdoptedDog = Dog(
+      name: myAdoptedDogName,
+      breed: "askal",
+      photo: "http://some-url/$myAdoptedDogName$i.jpg",
+    );
+
+    await insertDog(myAdoptedDog);
   }
 
-  // R -ead (Done)
+  //R-Read
   Future<List<Dog>> dogs() async {
     final db = await database;
 
@@ -82,58 +78,48 @@ Future<void> main() async {
             'id': id as int,
             'name': name as String,
             'breed': breed as String,
-            'photo': photo as String
-          } in dogMaps)
+            'photo': photo as String,
+          }
+          in dogMaps)
         Dog(id: id, name: name, breed: breed, photo: photo),
     ];
   }
 
-// sample code retrieve all my adopted dogs from the database
-  List<Dog> myAdoptedDogs = await dogs();
-  print("wmad-308-b My adopted dogs count ${myAdoptedDogs.length}");
-
-  List<Dog> myadoptedDogs = await dogs();
+  List<Dog> myAdoptedDog = await dogs();
   print(await dogs());
 
+  //U-Update
   Future<void> updateDog(Dog dog) async {
     final db = await database;
-
-    await db.update(
-      'dogs',
-      dog.toMap(),
-      where: 'id = ?',
-      whereArgs: [dog.id],
+    await db.update('dogs', 
+    dog.toMap(), 
+    where: 'id = ?', 
+    whereArgs: [dog.id]
     );
   }
 
-// U -pdate (Done)
-  myadoptedDogs.shuffle();
-  Dog myluckyDog = myadoptedDogs.first;
-  print("Your the lucky one to change your name: ${myluckyDog.name}");
-  myluckyDog.name = "Orocan";
-  print("Your new name is ${myluckyDog.name}");
+  myAdoptedDog.shuffle();
+  Dog myluckyDog = myAdoptedDog.first;
+  print("Your Lucky dog name : ${myluckyDog.name}");
+  myluckyDog.name = "KimchiSarah";
+  print("Lucky dog's new name : ${myluckyDog.name}");
   updateDog(myluckyDog);
   print("Your new name has officially registered");
 
 
-  // D -elete (Done)
-  Future<void> deleteDog(int? id) async {
+//D-Delete
+  Future<void> deleteDog(int id) async {
     final db = await database;
-
-    await db.delete(
-      'dogs',
-      where: 'id = ?',
-      whereArgs: [id],
+    await db.delete('dogs', 
+    where: 'id = ?', 
+    whereArgs: [id]
     );
   }
 
-  // sample code to delete in my adopted dogs
-  myadoptedDogs.shuffle();
-  Dog unluckyDog = myadoptedDogs.first;
-  print("Your so unlucky ${unluckyDog.name}");
-  deleteDog(unluckyDog.id!);
-  print("Your are now the appetizer of the day");
-
+  myAdoptedDog.shuffle();
+  Dog myunluckyDog = myAdoptedDog.first;
+  print("You're so unlucky : ${myunluckyDog.name}");
+  deleteDog(myunluckyDog.id!);
 
   runApp(const MyApp());
 }
@@ -146,10 +132,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color.fromARGB(255, 255, 209, 245),
+        ),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'SQLite Badol'),
     );
   }
 }
@@ -183,9 +171,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
+            const Text('You have pushed the button this many times:'),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
